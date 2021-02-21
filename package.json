@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.12.17",
-    "ensureDir": "^1.0.6",
     "eslint": "^7.20.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-import-resolver-babel-module": "^5.2.0",
