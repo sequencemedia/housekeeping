@@ -110,7 +110,7 @@ async function app () {
   const {
     dir = DIR,
     author = AUTHOR
-  } = commander
+  } = commander.opts()
 
   await P(dir, author)
 
