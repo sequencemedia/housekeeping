@@ -1,6 +1,6 @@
 {
   "name": "housekeeping",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./index.js",
   "author": "Jonathan Perry for Sequence Media Limited <sequencemedia@sequencemedia.net>",
   "license": "ISC",
