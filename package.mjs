@@ -9,11 +9,11 @@ async function app () {
   const PACKAGE = await getPackage('./package.json')
 
   const {
-  env: {
-    DIR = '..',
-    AUTHOR = getPackageAuthor(PACKAGE),
-    DEBUG = 'housekeeping*'
-  }
+    env: {
+      DIR = '..',
+      AUTHOR = getPackageAuthor(PACKAGE),
+      DEBUG = 'housekeeping*'
+    }
   } = process
 
   debug.enable(DEBUG)

@@ -4,10 +4,10 @@ import D from './src/depsrc.mjs'
 
 async function app () {
   const {
-  env: {
-    DIR = '..',
-    DEBUG = 'housekeeping*'
-  }
+    env: {
+      DIR = '..',
+      DEBUG = 'housekeeping*'
+    }
   } = process
 
   debug.enable(DEBUG)

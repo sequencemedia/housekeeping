@@ -4,10 +4,10 @@ import E from './src/eslintrc.mjs'
 
 async function app () {
   const {
-  env: {
-    DIR = '..',
-    DEBUG = 'housekeeping*'
-  }
+    env: {
+      DIR = '..',
+      DEBUG = 'housekeeping*'
+    }
   } = process
 
   debug.enable(DEBUG)
