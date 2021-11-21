@@ -1,23 +1,24 @@
 import debug from 'debug'
 
-import {
-  readFileSync
-} from 'fs'
-
-import app from './src/package.mjs'
-
+import getPackage from './src/common/get-package.mjs'
 import getPackageAuthor from './src/common/get-package-author.mjs'
 
-const PACKAGE = JSON.parse(readFileSync('./package.json'))
+import P from './src/package.mjs'
 
-const {
+async function app () {
+  const PACKAGE = await getPackage('./package.json')
+
+  const {
   env: {
     DIR = '..',
     AUTHOR = getPackageAuthor(PACKAGE),
     DEBUG = 'housekeeping*'
   }
-} = process
+  } = process
 
-debug.enable(DEBUG)
+  debug.enable(DEBUG)
 
-export default app(DIR, AUTHOR)
+  return await P(DIR, AUTHOR)
+}
+
+export default app()

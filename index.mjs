@@ -8,19 +8,14 @@ import psList from 'ps-list'
 
 import commander from 'commander'
 
-import {
-  readFile
-} from 'fs/promises'
+import getPackage from './src/common/get-package.mjs'
+import getPackageName from './src/common/get-package-name.mjs'
+import getPackageAuthor from './src/common/get-package-author.mjs'
+import getPackageVersion from './src/common/get-package-version.mjs'
 
 import P from './src/package.mjs'
 import D from './src/depsrc.mjs'
 import E from './src/eslintrc.mjs'
-
-import getPackageName from './src/common/get-package-name.mjs'
-
-import getPackageAuthor from './src/common/get-package-author.mjs'
-
-import getPackageVersion from './src/common/get-package-version.mjs'
 
 const {
   env: {
@@ -38,7 +33,7 @@ const NAME = 'housek'
 process.title = NAME
 
 async function app () {
-  const PACKAGE = JSON.parse(await readFile('./package.json', 'utf8'))
+  const PACKAGE = await getPackage('./package.json')
 
   const name = getPackageName(PACKAGE)
 
@@ -87,7 +82,7 @@ async function app () {
 
   commander
     .version(VERSION)
-    .option('-d, --dir [dir]', 'Root directory path')
+    .option('-d, --dir [dir]', 'Directory path')
     .option('-a, --author [author]', 'Package author')
     .parse(argv)
 

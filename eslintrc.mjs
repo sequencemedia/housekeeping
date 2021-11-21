@@ -1,14 +1,18 @@
 import debug from 'debug'
 
-import app from './src/eslintrc.mjs'
+import E from './src/eslintrc.mjs'
 
-const {
+async function app () {
+  const {
   env: {
     DIR = '..',
     DEBUG = 'housekeeping*'
   }
-} = process
+  } = process
 
-debug.enable(DEBUG)
+  debug.enable(DEBUG)
 
-export default app(DIR)
+  return await E(DIR)
+}
+
+export default app()

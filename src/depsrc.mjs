@@ -2,13 +2,10 @@ import debug from 'debug'
 
 import glob from 'glob-all'
 
-import {
-  readFile,
-  writeFile
-} from 'fs/promises'
-
 import transform from './common/transform.mjs'
 
+import getPackage from './common/get-package.mjs'
+import setPackage from './common/set-package.mjs'
 import getPackages from './common/get-packages.mjs'
 
 const log = debug('housekeeping')
@@ -34,9 +31,6 @@ async function execute (p) {
   try {
     info(p)
 
-    let s = await readFile(p, 'utf8')
-    let o = JSON.parse(s)
-
     const {
       dependencies,
       devDependencies,
@@ -44,19 +38,16 @@ async function execute (p) {
       bundleDependencies,
       peerDependencies,
       ...rest
-    } = o
+    } = await getPackage(p)
 
-    o = {
+    await setPackage(p, {
       ...(dependencies ? { dependencies } : {}),
       ...(devDependencies ? { devDependencies } : {}),
       ...(optionalDependencies ? { optionalDependencies } : {}),
       ...(bundleDependencies ? { bundleDependencies } : {}),
       ...(peerDependencies ? { peerDependencies } : {}),
       ...rest
-    }
-
-    s = JSON.stringify(o, null, 2).concat('\n')
-    await writeFile(p, s, 'utf8')
+    })
   } catch ({ message = 'No error message defined' }) {
     log(message)
   }

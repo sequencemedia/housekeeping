@@ -1,14 +1,18 @@
 import debug from 'debug'
 
-import app from './src/depsrc.mjs'
+import D from './src/depsrc.mjs'
 
-const {
+async function app () {
+  const {
   env: {
     DIR = '..',
     DEBUG = 'housekeeping*'
   }
-} = process
+  } = process
 
-debug.enable(DEBUG)
+  debug.enable(DEBUG)
 
-export default app(DIR)
+  return await D(DIR)
+}
+
+export default app()

@@ -4,11 +4,8 @@ import {
   resolve
 } from 'path'
 
-import {
-  readFile,
-  writeFile
-} from 'fs/promises'
-
+import getPackage from './common/get-package.mjs'
+import setPackage from './common/set-package.mjs'
 import getPackages from './common/get-packages.mjs'
 
 const log = debug('housekeeping')
@@ -23,9 +20,6 @@ async function execute (p, AUTHOR, REGEXP, d) {
 
   try {
     info(p)
-
-    let s = await readFile(p, 'utf8')
-    let o = JSON.parse(s)
 
     const {
       name,
@@ -53,9 +47,9 @@ async function execute (p, AUTHOR, REGEXP, d) {
       _moduleAliases,
       husky,
       ...rest
-    } = o
+    } = await getPackage(p)
 
-    o = {
+    await setPackage(p, {
       ...(name ? { name } : {}),
       ...(version ? { version } : {}),
       ...(description ? { description } : {}),
@@ -81,17 +75,14 @@ async function execute (p, AUTHOR, REGEXP, d) {
       ...(exports ? { exports } : {}),
       ...(_moduleAliases ? { _moduleAliases } : {}),
       ...(husky ? { husky } : {})
-    }
-
-    s = JSON.stringify(o, null, 2).concat('\n')
-    await writeFile(p, s, 'utf8')
+    })
   } catch ({ message = 'No error message defined' }) {
     log(message)
   }
 }
 
 export default async function app (directory, author) {
-  log('app', directory, author)
+  log('app')
 
   const array = await getPackages(transform(directory))
 
