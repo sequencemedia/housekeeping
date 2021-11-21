@@ -1,12 +1,13 @@
 {
   "name": "housekeeping",
   "version": "1.0.3",
-  "main": "./index.js",
+  "main": "./index.mjs",
+  "type": "module",
   "author": "Jonathan Perry for Sequence Media Limited <sequencemedia@sequencemedia.net>",
   "license": "ISC",
   "scripts": {
     "start": "node .",
-    "lint": "eslint .",
+    "lint": "eslint . --ext .cjs --ext .mjs",
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {

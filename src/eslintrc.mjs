@@ -7,11 +7,12 @@ import {
   writeFile
 } from 'fs/promises'
 
-import transform from './common/transform'
+import transform from './common/transform.mjs'
 
-import getPackages from './common/get-packages'
+import getPackages from './common/get-packages.mjs'
 
-const log = debug('housekeeping:eslintrc')
+const log = debug('housekeeping')
+const info = debug('housekeeping:eslintrc')
 
 log('`housekeeping:eslintrc` is awake')
 
@@ -38,6 +39,8 @@ async function execute (p) {
   log('execute')
 
   try {
+    info(p)
+
     let s = await readFile(p, 'utf8')
     let o = JSON.parse(s)
 

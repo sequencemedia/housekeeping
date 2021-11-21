@@ -1,20 +1,30 @@
 #!/usr/bin/env node
 
-require('@babel/register')
+import 'dotenv/config'
 
-require('dotenv/config')
+import debug from 'debug'
 
-const debug = require('debug')
+import psList from 'ps-list'
 
-const psList = require('ps-list')
+import commander from 'commander'
 
-const { default: P } = require('./src/package')
-const { default: D } = require('./src/depsrc')
-const { default: E } = require('./src/eslintrc')
+import {
+  readFile
+} from 'fs/promises'
+
+import P from './src/package.mjs'
+import D from './src/depsrc.mjs'
+import E from './src/eslintrc.mjs'
+
+import getPackageName from './src/common/get-package-name.mjs'
+
+import getPackageAuthor from './src/common/get-package-author.mjs'
+
+import getPackageVersion from './src/common/get-package-version.mjs'
 
 const {
   env: {
-    DEBUG = 'housekeeping:*'
+    DEBUG = 'housekeeping*'
   }
 } = process
 
@@ -24,39 +34,13 @@ const log = debug('housekeeping')
 
 log('`housekeeping` is awake')
 
-const commander = require('commander')
-
-const PACKAGE = require('./package.json')
-
 const NAME = 'housek'
 process.title = NAME
 
-function getPackageName () {
-  const {
-    name = 'housekeeping'
-  } = PACKAGE
-
-  return name
-}
-
-function getPackageAuthor () {
-  const {
-    author = 'Jonathan Perry <jonathanperry@sequencemedia.net>'
-  } = PACKAGE
-
-  return author
-}
-
-function getPackageVersion () {
-  const {
-    version = '1.0.0'
-  } = PACKAGE
-
-  return version
-}
-
 async function app () {
-  const name = getPackageName()
+  const PACKAGE = JSON.parse(await readFile('./package.json', 'utf8'))
+
+  const name = getPackageName(PACKAGE)
 
   /**
    *  Permit only one instance of the application
@@ -94,8 +78,8 @@ async function app () {
     argv,
     env: {
       DIR = '..',
-      AUTHOR = getPackageAuthor(),
-      VERSION = getPackageVersion()
+      AUTHOR = getPackageAuthor(PACKAGE),
+      VERSION = getPackageVersion(PACKAGE)
     }
   } = process
 
@@ -119,4 +103,4 @@ async function app () {
   await E(dir)
 }
 
-module.exports = app()
+export default app()
