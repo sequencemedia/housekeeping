@@ -11,10 +11,10 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/plugin-proposal-class-properties": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "@babel/register": "^7.16.0",
+    "@babel/core": "^7.16.5",
+    "@babel/plugin-proposal-class-properties": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/register": "^7.16.5",
     "commander": "^8.3.0",
     "debug": "^4.3.3",
     "dotenv": "^10.0.0",
@@ -22,7 +22,7 @@
     "ps-list": "^8.0.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.16.3",
+    "@babel/eslint-parser": "^7.16.5",
     "eslint": "7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-import-resolver-babel-module": "^5.3.1",
