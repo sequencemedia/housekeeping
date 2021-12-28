@@ -53,7 +53,7 @@ async function app () {
         pid
       } = a.find(({ pid }) => pid !== PID)
 
-      const log = debug('housekeeping:process:log')
+      const log = debug('housekeeping:process')
 
       log(`Killing application "${name}" in process ${pid}.`)
 
@@ -65,8 +65,6 @@ async function app () {
     error(message)
     return
   }
-
-  const log = debug('housekeeping:log')
 
   const {
     pid,
