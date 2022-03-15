@@ -11,10 +11,10 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
-    "@babel/core": "^7.17.5",
+    "@babel/core": "^7.17.7",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/preset-env": "^7.16.11",
-    "@babel/register": "^7.17.0",
+    "@babel/register": "^7.17.7",
     "commander": "^9.0.0",
     "debug": "^4.3.3",
     "dotenv": "^16.0.0",
