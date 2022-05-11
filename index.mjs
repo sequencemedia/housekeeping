@@ -61,7 +61,7 @@ async function app () {
 
   await P(dir, author)
 
-  await D(dir)
+  await D(dir, author)
 
   await E(dir)
 }
