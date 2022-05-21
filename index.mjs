@@ -17,14 +17,6 @@ import P from './src/package.mjs'
 import D from './src/depsrc.mjs'
 import E from './src/eslintrc.mjs'
 
-const {
-  env: {
-    DEBUG = 'housekeeping*'
-  }
-} = process
-
-debug.enable(DEBUG)
-
 const log = debug('housekeeping')
 
 log('`housekeeping` is awake')
@@ -32,7 +24,7 @@ log('`housekeeping` is awake')
 const commander = new Command()
 
 async function app () {
-  const PACKAGE = await getPackage('./package.json')
+  const PACKAGE = await getPackage('.')
 
   const name = getPackageName(PACKAGE)
 
