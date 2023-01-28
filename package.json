@@ -6,7 +6,7 @@
   "author": "Jonathan Perry for Sequence Media Limited <sequencemedia@sequencemedia.net>",
   "license": "ISC",
   "scripts": {
-    "start": "DEBUG=housekeeping* node .",
+    "start": "DEBUG=housekeeping* node app.mjs",
     "lint": "eslint . --ext .cjs --ext .mjs",
     "lint:fix": "npm run lint -- --fix"
   },
