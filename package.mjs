@@ -6,7 +6,7 @@ import getPackageAuthor from './src/common/get-package-author.mjs'
 import P from './src/package.mjs'
 
 async function app () {
-  const PACKAGE = await getPackage('./package.json')
+  const PACKAGE = await getPackage()
 
   const {
     env: {
