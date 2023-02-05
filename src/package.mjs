@@ -80,6 +80,13 @@ async function renderFile (p, AUTHOR) {
 export default async function handleDirectory (directory, author) {
   log('handleDirectory')
 
-  const a = await getPackages(transform(directory))
-  for (const p of genFilePath(a)) await renderFile(p, author)
+  const d = transform(directory)
+  try {
+    info(d)
+
+    const a = await getPackages(d)
+    for (const p of genFilePath(a)) await renderFile(p, author)
+  } catch ({ message }) {
+    log(message)
+  }
 }
