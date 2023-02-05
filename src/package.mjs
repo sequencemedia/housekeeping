@@ -1,5 +1,6 @@
 import debug from 'debug'
 
+import genFilePath from './common/gen-file-path.mjs'
 import getFile from './common/get-file.mjs'
 import setFile from './common/set-file.mjs'
 import getPackages from './common/get-packages.mjs'
@@ -10,8 +11,8 @@ const info = debug('housekeeping:package')
 
 log('`housekeeping:package` is awake')
 
-async function execute (p, AUTHOR) {
-  log('execute')
+async function renderFile (p, AUTHOR) {
+  log('renderFile')
 
   try {
     info(p)
@@ -76,18 +77,9 @@ async function execute (p, AUTHOR) {
   }
 }
 
-async function iterate ([p, ...a], author) {
-  log('iterate')
+export default async function handleDirectory (directory, author) {
+  log('handleDirectory')
 
-  if (p) await execute(p, author)
-
-  if (a.length) await iterate(a, author)
-}
-
-export default async function app (directory, author) {
-  log('app')
-
-  const array = await getPackages(transform(directory))
-
-  await iterate(array.map(transform), author)
+  const a = await getPackages(transform(directory))
+  for (const p of genFilePath(a)) await renderFile(p, author)
 }
