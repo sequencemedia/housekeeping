@@ -6,12 +6,14 @@ import setFile from './common/set-file.mjs'
 import getPackages from './common/get-packages.mjs'
 import transform from './common/transform.mjs'
 
+const MESSAGE = 'No error message defined'
+
 const log = debug('housekeeping')
 const info = debug('housekeeping:package')
 
 log('`housekeeping:package` is awake')
 
-async function renderFile (p, AUTHOR) {
+async function renderFile (p, AUTHOR, REGEXP) {
   log('renderFile')
 
   try {
@@ -54,7 +56,7 @@ async function renderFile (p, AUTHOR) {
       ...(main ? { main } : {}),
       ...(type ? { type } : {}),
       ...(types ? { types } : {}),
-      ...(author ? (typeof author === 'string' && author.startsWith('Jonathan Perry')) ? { author: AUTHOR } : { author } : {}),
+      ...(author ? (typeof author === 'string' && REGEXP.test(author)) ? { author: AUTHOR } : { author } : {}),
       ...(contributors ? { contributors } : {}),
       ...(license ? { license } : {}),
       ...(engines ? { engines } : {}),
@@ -72,12 +74,14 @@ async function renderFile (p, AUTHOR) {
       ...(_moduleAliases ? { _moduleAliases } : {}),
       ...(husky ? { husky } : {})
     })
-  } catch ({ message = 'No error message defined' }) {
+  } catch ({
+    message = MESSAGE
+  }) {
     log(message)
   }
 }
 
-export default async function handleDirectory (directory, author) {
+export default async function handleDirectory (directory, author, regExp) {
   log('handleDirectory')
 
   const d = transform(directory)
@@ -85,8 +89,10 @@ export default async function handleDirectory (directory, author) {
     info(d)
 
     const a = await getPackages(d)
-    for (const p of genFilePath(a)) await renderFile(p, author)
-  } catch ({ message }) {
+    for (const p of genFilePath(a)) await renderFile(p, author, regExp)
+  } catch ({
+    message = MESSAGE
+  }) {
     log(message)
   }
 }

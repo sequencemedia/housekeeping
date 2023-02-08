@@ -14,13 +14,14 @@ async function app () {
     env: {
       DIR = '..',
       AUTHOR = getPackageAuthor(PACKAGE),
+      REGEXP = '^Jonathan Perry',
       DEBUG = 'housekeeping*'
     }
   } = process
 
   debug.enable(DEBUG)
 
-  return await P(DIR, AUTHOR)
+  return await P(DIR, AUTHOR, REGEXP)
 }
 
 export default app()

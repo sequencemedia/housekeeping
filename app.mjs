@@ -35,6 +35,7 @@ async function app () {
     env: {
       DIR = '..',
       AUTHOR = getPackageAuthor(PACKAGE),
+      REGEXP = '^Jonathan Perry',
       VERSION = getPackageVersion(PACKAGE)
     }
   } = process
@@ -45,14 +46,16 @@ async function app () {
     .version(VERSION)
     .option('-d, --dir [dir]', 'Directory path')
     .option('-a, --author [author]', 'Package author')
+    .option('-r, --regexp [regexp]', 'Package author Regular Expression')
     .parse(argv)
 
   const {
     dir = DIR,
-    author = AUTHOR
+    author = AUTHOR,
+    regexp = REGEXP
   } = commander.opts()
 
-  await P(dir, author)
+  await P(dir, author, regexp)
 
   await D(dir, author)
 
