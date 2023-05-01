@@ -11,7 +11,7 @@
     "start:depsrc": "node depsrc.mjs",
     "start:eslintrc": "node eslintrc.mjs",
     "start:babelrc": "node babelrc.mjs",
-    "lint": "eslint . --ext .cjs --ext .mjs",
+    "lint": "eslint . --ext .mjs --ext .cjs",
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
