@@ -19,17 +19,10 @@ log('`housekeeping` is awake')
 function toPatterns (directory) {
   return [
     `${directory}/jsconfig.json`,
-    // `${directory}/*/jsconfig.json`,
-    // `${directory}/**/*/jsconfig.json`,
     `${directory}/**/jsconfig.json`,
     `!${directory}/node_modules/jsconfig.json`,
-    // `!${directory}/node_modules/*/jsconfig.json`,
-    // `!${directory}/node_modules/**/*/jsconfig.json`,
     `!${directory}/node_modules/**/jsconfig.json`,
     `!${directory}/**/node_modules/jsconfig.json`,
-    // `!${directory}/**/*/node_modules/jsconfig.json`,
-    // `!${directory}/**/*/node_modules/*/jsconfig.json`,
-    // `!${directory}/**/*/node_modules/**/*/jsconfig.json`,
     `!${directory}/**/node_modules/**/jsconfig.json`
   ]
 }

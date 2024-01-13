@@ -20,28 +20,14 @@ function toPatterns (directory) {
   return [
     `${directory}/.babelrc`,
     `${directory}/.babelrc.json`,
-    // `${directory}/*/.babelrc`,
-    // `${directory}/*/.babelrc.json`,
-    // `${directory}/**/*/.babelrc`,
-    // `${directory}/**/*/.babelrc.json`,
     `${directory}/**/.babelrc`,
     `${directory}/**/.babelrc.json`,
     `!${directory}/node_modules/.babelrc`,
     `!${directory}/node_modules/.babelrc.json`,
-    // `!${directory}/node_modules/*/.babelrc`,
-    // `!${directory}/node_modules/*/.babelrc.json`,
-    // `!${directory}/node_modules/**/*/.babelrc`,
-    // `!${directory}/node_modules/**/*/.babelrc.json`,
     `!${directory}/node_modules/**/.babelrc`,
     `!${directory}/node_modules/**/.babelrc.json`,
-    // `!${directory}/**/*/node_modules/.babelrc`,
-    // `!${directory}/**/*/node_modules/.babelrc.json`,
     `!${directory}/**/node_modules/.babelrc`,
     `!${directory}/**/node_modules/.babelrc.json`,
-    // `!${directory}/**/*/node_modules/*/.babelrc`,
-    // `!${directory}/**/*/node_modules/*/.babelrc.json`,
-    // `!${directory}/**/*/node_modules/**/*/.babelrc`,
-    // `!${directory}/**/*/node_modules/**/*/.babelrc.json`
     `!${directory}/**/node_modules/**/.babelrc`,
     `!${directory}/**/node_modules/**/.babelrc.json`
   ]

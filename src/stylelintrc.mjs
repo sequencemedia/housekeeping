@@ -21,28 +21,14 @@ function toPatterns (directory) {
   return [
     `${directory}/.stylelintrc`,
     `${directory}/.stylelintrc.json`,
-    // `${directory}/*/.stylelintrc`,
-    // `${directory}/*/.stylelintrc.json`,
-    // `${directory}/**/*/.stylelintrc`,
-    // `${directory}/**/*/.stylelintrc.json`,
     `${directory}/**/.stylelintrc`,
     `${directory}/**/.stylelintrc.json`,
     `!${directory}/node_modules/.stylelintrc`,
     `!${directory}/node_modules/.stylelintrc.json`,
-    // `!${directory}/node_modules/*/.stylelintrc`,
-    // `!${directory}/node_modules/*/.stylelintrc.json`,
-    // `!${directory}/node_modules/**/*/.stylelintrc`,
-    // `!${directory}/node_modules/**/*/.stylelintrc.json`
     `!${directory}/node_modules/**/.stylelintrc`,
     `!${directory}/node_modules/**/.stylelintrc.json`,
-    // `!${directory}/**/*/node_modules/.stylelintrc`,
-    // `!${directory}/**/*/node_modules/.stylelintrc.json`,
     `!${directory}/**/node_modules/.stylelintrc`,
     `!${directory}/**/node_modules/.stylelintrc.json`,
-    // `!${directory}/**/*/node_modules/*/.stylelintrc`,
-    // `!${directory}/**/*/node_modules/*/.stylelintrc.json`,
-    // `!${directory}/**/*/node_modules/**/*/.stylelintrc`,
-    // `!${directory}/**/*/node_modules/**/*/.stylelintrc.json`,
     `!${directory}/**/node_modules/**/.stylelintrc`,
     `!${directory}/**/node_modules/**/.stylelintrc.json`
   ]

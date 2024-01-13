@@ -20,28 +20,14 @@ function toPatterns (directory) {
   return [
     `${directory}/.eslintrc`,
     `${directory}/.eslintrc.json`,
-    // `${directory}/*/.eslintrc`,
-    // `${directory}/*/.eslintrc.json`,
-    // `${directory}/**/*/.eslintrc`,
-    // `${directory}/**/*/.eslintrc.json`,
     `${directory}/**/.eslintrc`,
     `${directory}/**/.eslintrc.json`,
     `!${directory}/node_modules/.eslintrc`,
     `!${directory}/node_modules/.eslintrc.json`,
-    // `!${directory}/node_modules/*/.eslintrc`,
-    // `!${directory}/node_modules/*/.eslintrc.json`,
-    // `!${directory}/node_modules/**/*/.eslintrc`,
-    // `!${directory}/node_modules/**/*/.eslintrc.json`,
     `!${directory}/node_modules/**/.eslintrc`,
     `!${directory}/node_modules/**/.eslintrc.json`,
-    // `!${directory}/**/*/node_modules/.eslintrc`,
-    // `!${directory}/**/*/node_modules/.eslintrc.json`,
     `!${directory}/**/node_modules/.eslintrc`,
     `!${directory}/**/node_modules/.eslintrc.json`,
-    // `!${directory}/**/*/node_modules/*/.eslintrc`,
-    // `!${directory}/**/*/node_modules/*/.eslintrc.json`,
-    // `!${directory}/**/*/node_modules/**/*/.eslintrc`,
-    // `!${directory}/**/*/node_modules/**/*/.eslintrc.json`
     `!${directory}/**/node_modules/**/.eslintrc`,
     `!${directory}/**/node_modules/**/.eslintrc.json`
   ]
