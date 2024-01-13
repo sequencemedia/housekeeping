@@ -19,14 +19,18 @@ log('`housekeeping` is awake')
 function toPatterns (directory) {
   return [
     `${directory}/tsconfig.json`,
-    `${directory}/*/tsconfig.json`,
-    `${directory}/**/*/tsconfig.json`,
+    // `${directory}/*/tsconfig.json`,
+    // `${directory}/**/*/tsconfig.json`,
+    `${directory}/**/tsconfig.json`,
     `!${directory}/node_modules/tsconfig.json`,
-    `!${directory}/node_modules/*/tsconfig.json`,
-    `!${directory}/node_modules/**/*/tsconfig.json`,
-    `!${directory}/**/*/node_modules/tsconfig.json`,
-    `!${directory}/**/*/node_modules/*/tsconfig.json`,
-    `!${directory}/**/*/node_modules/**/*/tsconfig.json`
+    // `!${directory}/node_modules/*/tsconfig.json`,
+    // `!${directory}/node_modules/**/*/tsconfig.json`,
+    `!${directory}/node_modules/**/tsconfig.json`,
+    `!${directory}/**/node_modules/tsconfig.json`,
+    // `!${directory}/**/*/node_modules/tsconfig.json`,
+    // `!${directory}/**/*/node_modules/*/tsconfig.json`,
+    // `!${directory}/**/*/node_modules/**/*/tsconfig.json`,
+    `!${directory}/**/node_modules/**/tsconfig.json`
   ]
 }
 

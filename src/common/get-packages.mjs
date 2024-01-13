@@ -10,6 +10,13 @@ export default function getPackages (directory = '.') {
   log('getPackages')
 
   return (
-    getFilePathList([`${directory}/package.json`, `${directory}/*/package.json`])
+    getFilePathList([
+      `${directory}/package.json`,
+      `${directory}/**/package.json`,
+      `!${directory}/node_modules/package.json`,
+      `!${directory}/node_modules/**/package.json`,
+      `!${directory}/**/node_modules/package.json`,
+      `!${directory}/**/node_modules/**/package.json`
+    ])
   )
 }
