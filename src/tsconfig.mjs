@@ -12,7 +12,7 @@ const MESSAGE = 'No error message defined'
 
 const log = debug('housekeeping/tsconfig')
 const info = debug('housekeeping/tsconfig:info')
-const error = debug('housekeeping/tsconfig:info')
+const error = debug('housekeeping/tsconfig:error')
 
 log('`housekeeping` is awake')
 
