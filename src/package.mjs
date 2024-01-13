@@ -2,8 +2,10 @@ import debug from 'debug'
 
 import getFilePathList from './common/get-file-path-list.mjs'
 import genFilePath from './common/gen-file-path.mjs'
+import toDirectory from './common/to-directory.mjs'
 import getFile from './common/get-file.mjs'
 import setFile from './common/set-file.mjs'
+import getPackages from './common/get-packages.mjs'
 import transform from './common/transform.mjs'
 
 const MESSAGE = 'No error message defined'
@@ -100,8 +102,8 @@ async function renderFile (p, AUTHOR, REGEXP) {
   }
 }
 
-export default async function handleDirectory (directory, author, regExp) {
-  log('handleDirectory')
+async function handlePackageDirectory (directory, author, regExp) {
+  log('handlePackageDirectory')
 
   const d = transform(directory)
   try {
@@ -109,6 +111,22 @@ export default async function handleDirectory (directory, author, regExp) {
 
     const a = await getFilePathList(toPatterns(d))
     for (const p of genFilePath(a)) await renderFile(p, author, new RegExp(regExp))
+  } catch ({
+    message = MESSAGE
+  }) {
+    error(message)
+  }
+}
+
+export default async function handleDirectory (directory, author, regExp) {
+  log('handleDirectory')
+
+  const d = transform(directory)
+  try {
+    info(d)
+
+    const a = await getPackages(d)
+    for (const p of genFilePath(a)) await handlePackageDirectory(toDirectory(p), author, regExp)
   } catch ({
     message = MESSAGE
   }) {

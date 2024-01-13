@@ -12,7 +12,9 @@ export default function getPackages (directory = '.') {
   return (
     getFilePathList([
       `${directory}/package.json`,
-      `${directory}/*/package.json`
+      `${directory}/*/package.json`,
+      `!${directory}/node_nodules/**/package.json`,
+      `!${directory}/**/node_modules/**/package.json`
     ])
   )
 }
