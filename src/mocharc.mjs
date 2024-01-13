@@ -20,8 +20,8 @@ function toPatterns (directory) {
   return [
     `${directory}/.mocharc`,
     `${directory}/.mocharc.json`,
-    `${directory}/*/.mocharc`,
-    `${directory}/*/.mocharc.json`,
+    // `${directory}/*/.mocharc`,
+    // `${directory}/*/.mocharc.json`,
     // `${directory}/**/*/.mocharc`,
     // `${directory}/**/*/.mocharc.json`,
     `${directory}/**/.mocharc`,

@@ -1,9 +1,9 @@
 import debug from 'debug'
 
+import getFilePathList from './common/get-file-path-list.mjs'
 import genFilePath from './common/gen-file-path.mjs'
 import getFile from './common/get-file.mjs'
 import setFile from './common/set-file.mjs'
-import getPackages from './common/get-packages.mjs'
 import transform from './common/transform.mjs'
 
 const MESSAGE = 'No error message defined'
@@ -13,6 +13,24 @@ const info = debug('housekeeping/package:info')
 const error = debug('housekeeping/package:error')
 
 log('`housekeeping` is awake')
+
+function toPatterns (directory) {
+  return [
+    `${directory}/package.json`,
+    // `${directory}/*/package.json`,
+    // `${directory}/**/*/package.json`,
+    `${directory}/**/package.json`,
+    `!${directory}/node_modules/package.json`,
+    // `!${directory}/node_modules/*/package.json`,
+    // `!${directory}/node_modules/**/*/package.json`,
+    `!${directory}/node_modules/**/package.json`,
+    `!${directory}/**/node_modules/package.json`,
+    // `!${directory}/**/*/node_modules/package.json`,
+    // `!${directory}/**/*/node_modules/*/package.json`,
+    // `!${directory}/**/*/node_modules/**/*/package.json`,
+    `!${directory}/**/node_modules/**/package.json`
+  ]
+}
 
 async function renderFile (p, AUTHOR, REGEXP) {
   log('renderFile')
@@ -89,7 +107,7 @@ export default async function handleDirectory (directory, author, regExp) {
   try {
     info(d)
 
-    const a = await getPackages(d)
+    const a = await getFilePathList(toPatterns(d))
     for (const p of genFilePath(a)) await renderFile(p, author, new RegExp(regExp))
   } catch ({
     message = MESSAGE
