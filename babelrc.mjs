@@ -13,6 +13,14 @@ import normalise from './src/common/normalise.mjs'
 
 import B from './src/babelrc.mjs'
 
+const {
+  env: {
+    DEBUG = 'housekeeping*'
+  }
+} = process
+
+if (DEBUG) debug.enable(DEBUG)
+
 const log = debug('housekeeping')
 
 log('`housekeeping` is awake')
@@ -29,12 +37,9 @@ async function app () {
     argv,
     env: {
       DIR = '..',
-      VERSION = getPackageVersion(PACKAGE),
-      DEBUG = 'housekeeping*'
+      VERSION = getPackageVersion(PACKAGE)
     }
   } = process
-
-  debug.enable(DEBUG)
 
   log(`Starting application "${name}" in process ${pid}.`)
 

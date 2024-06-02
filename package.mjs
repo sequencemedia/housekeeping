@@ -14,6 +14,14 @@ import normalise from './src/common/normalise.mjs'
 
 import P from './src/package.mjs'
 
+const {
+  env: {
+    DEBUG = 'housekeeping*'
+  }
+} = process
+
+if (DEBUG) debug.enable(DEBUG)
+
 const log = debug('housekeeping')
 
 log('`housekeeping` is awake')
@@ -32,12 +40,9 @@ async function app () {
       DIR = '..',
       AUTHOR = getPackageAuthor(PACKAGE),
       REGEXP = '^Jonathan Perry',
-      VERSION = getPackageVersion(PACKAGE),
-      DEBUG = 'housekeeping*'
+      VERSION = getPackageVersion(PACKAGE)
     }
   } = process
-
-  debug.enable(DEBUG)
 
   log(`Starting application "${name}" in process ${pid}.`)
 
