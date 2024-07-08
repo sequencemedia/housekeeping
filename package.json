@@ -1,6 +1,6 @@
 {
   "name": "housekeeping",
-  "version": "3.2.80",
+  "version": "3.2.82",
   "private": true,
   "main": "./index.mjs",
   "type": "module",
@@ -11,7 +11,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "lint": "eslint . --ext .mjs,.cjs",
+    "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky",
     "start": "node app.mjs",
@@ -33,10 +33,10 @@
     "@babel/core": "^7.24.7",
     "@babel/eslint-parser": "^7.24.7",
     "@babel/preset-env": "^7.24.7",
+    "@sequencemedia/eslint-config-standard": "^0.0.8",
     "@sequencemedia/hooks": "^1.0.496",
     "core-js": "^3.37.1",
-    "eslint": "8.57.0",
-    "eslint-config-standard": "^17.1.0",
+    "eslint": "^9.6.0",
     "husky": "^9.0.11"
   }
 }
