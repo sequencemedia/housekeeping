@@ -37,6 +37,6 @@
     "@sequencemedia/hooks": "^1.0.506",
     "core-js": "^3.37.1",
     "eslint": "^9.7.0",
-    "husky": "^9.1.0"
+    "husky": "^9.1.1"
   }
 }
