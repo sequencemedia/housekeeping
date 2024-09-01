@@ -1,6 +1,6 @@
 import debug from 'debug'
 
-import getFile from './get-file.mjs'
+import fromFile from './from-file.mjs'
 
 const log = debug('housekeeping/common/get-package')
 
@@ -10,6 +10,6 @@ export default async function getPackage (directory = '.') {
   log('getPackage')
 
   return (
-    getFile(`${directory}/package.json`)
+    fromFile(`${directory}/package.json`)
   )
 }
