@@ -9,7 +9,7 @@ import getFilePaths from './common/get-file-paths.mjs'
 import genFilePath from './common/gen-file-path.mjs'
 import fromFile from './common/from-file.mjs'
 import toFile from './common/to-file.mjs'
-import getPackages from './common/get-packages.mjs'
+import toPackages from './common/to-packages.mjs'
 import handleError from './common/handle-error.mjs'
 import isString from './common/is-string.mjs'
 
@@ -29,15 +29,18 @@ function toPatterns (directory) {
   ]
 }
 
-function sortEntries ([alpha], [omega]) {
-  return alpha.localeCompare(omega)
+function sortKeys ([alpha], [omega]) {
+  return (
+    alpha
+      .localeCompare(omega)
+  )
 }
 
 function byKeys (object) {
   return (
     Object.fromEntries(
       Object.entries(object)
-        .sort(sortEntries)
+        .sort(sortKeys)
     )
   )
 }
@@ -129,7 +132,7 @@ export default async function handleDirectory (directory, author, regExp) {
   try {
     info(d)
 
-    const a = await getPackages(d)
+    const a = await getFilePaths(toPackages(d))
     for (const filePath of genFilePath(a)) await handlePackageDirectory(dirname(filePath), author, regExp)
   } catch (e) {
     handleError(e)
