@@ -9,7 +9,5 @@ log('`housekeeping` is awake')
 export default async function getPackage (directory = '.') {
   log('getPackage')
 
-  return (
-    fromFile(`${directory}/package.json`)
-  )
+  return await fromFile(`${directory}/package.json`)
 }
