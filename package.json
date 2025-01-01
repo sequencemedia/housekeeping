@@ -1,6 +1,6 @@
 {
   "name": "housekeeping",
-  "version": "3.2.176",
+  "version": "3.2.177",
   "private": true,
   "main": "./index.mjs",
   "type": "module",
