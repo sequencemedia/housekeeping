@@ -12,6 +12,7 @@ import getPackageAuthor from './src/common/get-package-author.mjs'
 import getPackageVersion from './src/common/get-package-version.mjs'
 import normalise from './src/common/normalise.mjs'
 
+import Json from './src/json.mjs'
 import P from './src/package.mjs'
 import D from './src/depsrc.mjs'
 import M from './src/mocharc.mjs'
@@ -56,39 +57,51 @@ async function app () {
   commander
     .version(VERSION)
     .option('-d, --dir [dir]', 'Directory path')
+    .option('-j, --json [json]', 'JSON')
     .option('-a, --author [author]', 'Package author')
     .option('-r, --regexp [regexp]', 'Package author Regular Expression')
     .parse(argv)
 
   const {
     dir = DIR,
-    author = AUTHOR,
-    regexp = REGEXP
+    json = false
   } = commander.opts()
 
   const directory = normalise(dir)
 
   log({
-    directory,
-    author,
-    regexp
+    json,
+    directory
   })
 
-  await P(directory, author, regexp)
+  if (json) await Json(directory)
+  else {
+    const {
+      author = AUTHOR,
+      regexp = REGEXP
+    } = commander.opts()
 
-  await D(directory, author)
+    log({
+      author,
+      regexp
+    })
 
-  await M(directory)
+    await P(directory, author, regexp)
 
-  await J(directory)
+    await D(directory, author)
 
-  await T(directory)
+    await M(directory)
 
-  await E(directory)
+    await J(directory)
 
-  await S(directory)
+    await T(directory)
 
-  await B(directory)
+    await E(directory)
+
+    await S(directory)
+
+    await B(directory)
+  }
 }
 
 export default app()
