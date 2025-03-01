@@ -6,20 +6,14 @@ import {
   Command
 } from 'commander'
 
+import './src/common/debug.mjs'
+
 import getPackage from './src/common/get-package.mjs'
 import getPackageName from './src/common/get-package-name.mjs'
 import getPackageVersion from './src/common/get-package-version.mjs'
 import normalise from './src/common/normalise.mjs'
 
 import E from './src/eslintrc.mjs'
-
-const {
-  env: {
-    DEBUG = 'housekeeping*'
-  }
-} = process
-
-if (DEBUG) debug.enable(DEBUG)
 
 const log = debug('housekeeping')
 

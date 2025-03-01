@@ -6,6 +6,8 @@ import {
   Command
 } from 'commander'
 
+import './src/common/debug.mjs'
+
 import getPackage from './src/common/get-package.mjs'
 import getPackageName from './src/common/get-package-name.mjs'
 import getPackageAuthor from './src/common/get-package-author.mjs'
@@ -23,14 +25,6 @@ import S from './src/stylelintrc.mjs'
 import B from './src/babelrc.mjs'
 
 const log = debug('housekeeping')
-
-const {
-  env: {
-    DEBUG = 'housekeeping*'
-  }
-} = process
-
-if (DEBUG) debug.enable(DEBUG)
 
 log('`housekeeping` is awake')
 
