@@ -5,6 +5,7 @@ import {
   dirname
 } from 'node:path'
 
+import byKeys from './common/by-keys.mjs'
 import getFilePaths from './common/get-file-paths.mjs'
 import genFilePath from './common/gen-file-path.mjs'
 import fromFile from './common/from-file.mjs'
@@ -27,22 +28,6 @@ function toPatterns (directory) {
     `!${directory}/**/node_modules/package.json`,
     `!${directory}/**/node_modules/**/package.json`
   ]
-}
-
-function sortKeys ([alpha], [omega]) {
-  return (
-    alpha
-      .localeCompare(omega)
-  )
-}
-
-function byKeys (object) {
-  return (
-    Object.fromEntries(
-      Object.entries(object)
-        .sort(sortKeys)
-    )
-  )
 }
 
 async function renderFile (filePath, AUTHOR, REGEXP) {

@@ -5,6 +5,9 @@ import {
   dirname
 } from 'node:path'
 
+import isBoolean from './common/is-boolean.mjs'
+import byKeys from './common/by-keys.mjs'
+import sortItems from './common/sort-items.mjs'
 import getFilePaths from './common/get-file-paths.mjs'
 import genFilePath from './common/gen-file-path.mjs'
 import fromFile from './common/from-file.mjs'
@@ -28,6 +31,32 @@ function toPatterns (directory) {
   ]
 }
 
+function renderCompilerOptions ({
+  module,
+  target,
+  allowJs,
+  checkJs,
+  noEmit,
+  strict,
+  jsx,
+  baseUrl,
+  paths,
+  ...compilerOptions
+}) {
+  return {
+    ...(module ? { module } : {}),
+    ...(target ? { target } : {}),
+    ...(isBoolean(allowJs) ? { allowJs } : {}),
+    ...(isBoolean(checkJs) ? { checkJs } : {}),
+    ...(isBoolean(noEmit) ? { noEmit } : {}),
+    ...(isBoolean(strict) ? { strict } : {}),
+    ...(byKeys(compilerOptions)),
+    ...(jsx ? { jsx } : {}),
+    ...(baseUrl ? { baseUrl } : {}),
+    ...(paths ? { paths: byKeys(paths) } : {})
+  }
+}
+
 async function renderFile (filePath) {
   log('renderFile')
 
@@ -44,9 +73,9 @@ async function renderFile (filePath) {
 
     await toFile(filePath, {
       ...(doesExtend ? { extends: doesExtend } : {}),
-      ...(compilerOptions ? { compilerOptions } : {}),
-      ...(include ? { include } : {}),
-      ...(exclude ? { exclude } : {}),
+      ...(compilerOptions ? { compilerOptions: renderCompilerOptions(compilerOptions) } : {}),
+      ...(Array.isArray(include) ? { include: include.sort(sortItems) } : {}),
+      ...(Array.isArray(exclude) ? { exclude: exclude.sort(sortItems) } : {}),
       ...rest
     })
   } catch (e) {
