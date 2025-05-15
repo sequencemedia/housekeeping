@@ -1,4 +1,4 @@
-import debug from 'debug'
+import debug from '#housekeeping/debug'
 
 import fromFile from './from-file.mjs'
 

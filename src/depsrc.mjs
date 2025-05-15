@@ -1,9 +1,9 @@
-import debug from 'debug'
-
 import {
   resolve,
   dirname
 } from 'node:path'
+
+import debug from '#housekeeping/debug'
 
 import getFilePaths from './common/get-file-paths.mjs'
 import genFilePath from './common/gen-file-path.mjs'

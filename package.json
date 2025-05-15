@@ -34,5 +34,8 @@
     "eslint": "^9.26.0",
     "globals": "^16.1.0",
     "husky": "^9.1.7"
+  },
+  "imports": {
+    "#housekeeping/debug": "./scr/common/debug.mjs"
   }
 }

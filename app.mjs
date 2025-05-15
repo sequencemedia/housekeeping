@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 
-import debug from 'debug'
-
 import {
   Command
 } from 'commander'
 
-import './src/common/debug.mjs'
+import debug from '#housekeeping/debug'
 
 import getPackage from './src/common/get-package.mjs'
 import getPackageName from './src/common/get-package-name.mjs'

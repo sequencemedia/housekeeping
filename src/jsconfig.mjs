@@ -1,9 +1,9 @@
-import debug from 'debug'
-
 import {
   resolve,
   dirname
 } from 'node:path'
+
+import debug from '#housekeeping/debug'
 
 import isBoolean from './common/is-boolean.mjs'
 import byKeys from './common/by-keys.mjs'

@@ -1,4 +1,4 @@
-import debug from 'debug'
+import debug from '#housekeeping/debug'
 
 import getFilePaths from './get-file-paths.mjs'
 

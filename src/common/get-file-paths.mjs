@@ -1,6 +1,6 @@
-import debug from 'debug'
-
 import glob from 'glob-all'
+
+import debug from '#housekeeping/debug'
 
 const log = debug('housekeeping/common/get-file-paths')
 

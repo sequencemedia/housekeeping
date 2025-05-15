@@ -1,8 +1,8 @@
-import debug from 'debug'
-
 import {
   writeFile
-} from 'fs/promises'
+} from 'node:fs/promises'
+
+import debug from '#housekeeping/debug'
 
 const log = debug('housekeeping/common/to-file')
 
@@ -13,5 +13,7 @@ export default async function toFile (filePath, o) {
 
   const fileData = JSON.stringify(o, null, 2).concat('\n')
 
-  return await writeFile(filePath, fileData, 'utf8')
+  return (
+    await writeFile(filePath, fileData, 'utf8')
+  )
 }

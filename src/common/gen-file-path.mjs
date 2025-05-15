@@ -1,4 +1,4 @@
-import debug from 'debug'
+import debug from '#housekeeping/debug'
 
 const log = debug('housekeeping/common/gen-file-path')
 
