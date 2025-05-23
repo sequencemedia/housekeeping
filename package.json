@@ -36,6 +36,6 @@
     "husky": "^9.1.7"
   },
   "imports": {
-    "#housekeeping/debug": "./scr/common/debug.mjs"
+    "#housekeeping/debug": "./src/common/debug.mjs"
   }
 }

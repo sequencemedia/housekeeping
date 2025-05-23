@@ -99,11 +99,10 @@ async function renderFile (filePath, AUTHOR, REGEXP) {
 async function handlePackageDirectory (directory, author, regExp) {
   log('handlePackageDirectory')
 
-  const d = resolve(directory)
   try {
-    info(d)
+    info(directory)
 
-    const a = await getFilePaths(toPatterns(d))
+    const a = await getFilePaths(toPatterns(directory))
     for (const filePath of genFilePath(a)) await renderFile(filePath, author, new RegExp(regExp))
   } catch (e) {
     handleError(e)

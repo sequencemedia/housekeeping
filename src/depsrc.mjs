@@ -67,11 +67,10 @@ async function renderFile (filePath, AUTHOR) {
 async function handlePackageDirectory (directory, author) {
   log('handlePackageDirectory')
 
-  const d = resolve(directory)
   try {
-    info(d)
+    info(directory)
 
-    const a = await getFilePaths(toPatterns(d))
+    const a = await getFilePaths(toPatterns(directory))
     for (const filePath of genFilePath(a)) await renderFile(filePath, author)
   } catch (e) {
     handleError(e)

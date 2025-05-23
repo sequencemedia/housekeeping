@@ -80,11 +80,10 @@ async function renderFile (filePath) {
 async function handlePackageDirectory (directory) {
   log('handlePackageDirectory')
 
-  const d = resolve(directory)
   try {
-    info(d)
+    info(directory)
 
-    const a = await getFilePaths(toPatterns(d))
+    const a = await getFilePaths(toPatterns(directory))
     for (const filePath of genFilePath(a)) await renderFile(filePath)
   } catch (e) {
     handleError(e)
