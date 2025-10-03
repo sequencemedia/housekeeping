@@ -6,6 +6,7 @@ import {
 
 import debug from '#housekeeping/debug'
 
+import toHomeDir from './src/common/to-home-dir.mjs'
 import getPackage from './src/common/get-package.mjs'
 import getPackageName from './src/common/get-package-name.mjs'
 import getPackageAuthor from './src/common/get-package-author.mjs'
@@ -54,7 +55,7 @@ async function app () {
   const directory = normalise(dir)
 
   log({
-    directory,
+    directory: toHomeDir(directory),
     author,
     regexp
   })

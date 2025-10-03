@@ -6,6 +6,7 @@ import {
 
 import debug from '#housekeeping/debug'
 
+import toHomeDir from './src/common/to-home-dir.mjs'
 import getPackage from './src/common/get-package.mjs'
 import getPackageName from './src/common/get-package-name.mjs'
 import getPackageVersion from './src/common/get-package-version.mjs'
@@ -47,7 +48,7 @@ async function app () {
   const directory = normalise(dir)
 
   log({
-    directory
+    directory: toHomeDir(directory)
   })
 
   await D(directory)

@@ -5,6 +5,7 @@ import {
 
 import debug from '#housekeeping/debug'
 
+import toHomeDir from './common/to-home-dir.mjs'
 import getFilePaths from './common/get-file-paths.mjs'
 import genFilePath from './common/gen-file-path.mjs'
 import fromFile from './common/from-file.mjs'
@@ -38,7 +39,7 @@ async function renderFile (filePath, AUTHOR) {
   log('renderFile')
 
   try {
-    info(filePath)
+    info(toHomeDir(filePath))
 
     const {
       author,
@@ -67,8 +68,9 @@ async function renderFile (filePath, AUTHOR) {
 async function handlePackageDirectory (directory, author) {
   log('handlePackageDirectory')
 
+  const d = resolve(directory)
   try {
-    info(directory)
+    info(toHomeDir(d))
 
     const a = await getFilePaths(toPatterns(directory))
     for (const filePath of genFilePath(a)) await renderFile(filePath, author)
@@ -82,7 +84,7 @@ export default async function handleDirectory (directory, author) {
 
   const d = resolve(directory)
   try {
-    info(d)
+    info(toHomeDir(d))
 
     const a = await getFilePaths(toPackages(d))
     for (const filePath of genFilePath(a)) await handlePackageDirectory(dirname(filePath), author)
