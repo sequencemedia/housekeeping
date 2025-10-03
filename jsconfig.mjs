@@ -18,6 +18,10 @@ const log = debug('housekeeping')
 
 log('`housekeeping` is awake')
 
+const {
+  table
+} = console
+
 const commander = new Command()
 
 async function app () {
@@ -47,7 +51,7 @@ async function app () {
 
   const directory = normalise(dir)
 
-  log({
+  table({
     directory: toHomeDir(directory)
   })
 
