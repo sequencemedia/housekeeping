@@ -1,22 +1,22 @@
 #!/usr/bin/env node
 
+import debug from '#housekeeping/debug'
+
 import {
   Command
 } from 'commander'
 
-import debug from '#housekeeping/debug'
-
-import toHomeDir from './src/common/to-home-dir.mjs'
+import formatDirectory from './src/common/format-directory.mjs'
 import getPackage from './src/common/get-package.mjs'
 import getPackageName from './src/common/get-package-name.mjs'
 import getPackageVersion from './src/common/get-package-version.mjs'
-import normalise from './src/common/normalise.mjs'
+import normaliseDirectory from './src/common/normalise-directory.mjs'
 
 import B from './src/babelrc.mjs'
 
 const log = debug('housekeeping')
 
-log('`housekeeping` is awake')
+log('`housekeeping/babelrc` is awake')
 
 const {
   table
@@ -49,10 +49,10 @@ async function app () {
     dir = DIR
   } = commander.opts()
 
-  const directory = normalise(dir)
+  const directory = normaliseDirectory(dir)
 
   table({
-    directory: toHomeDir(directory)
+    directory: formatDirectory(directory)
   })
 
   await B(directory)

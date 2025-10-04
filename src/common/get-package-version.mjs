@@ -1,8 +1,8 @@
 import debug from '#housekeeping/debug'
 
-const log = debug('housekeeping/common/get-package-version')
+const log = debug('housekeeping/common')
 
-log('`housekeeping` is awake')
+log('`housekeeping/common/get-package-version` is awake')
 
 export default function getPackageVersion (PACKAGE = {}) {
   log('getPackageVersion')

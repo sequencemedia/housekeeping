@@ -1,12 +1,12 @@
+import debug from '#housekeeping/debug'
+
 import {
   resolve,
   dirname
 } from 'node:path'
 
-import debug from '#housekeeping/debug'
-
-import toHomeDir from './common/to-home-dir.mjs'
-import byKeys from './common/by-keys.mjs'
+import formatDirectory from './common/format-directory.mjs'
+import byKey from './common/by-key.mjs'
 import getFilePaths from './common/get-file-paths.mjs'
 import genFilePath from './common/gen-file-path.mjs'
 import fromFile from './common/from-file.mjs'
@@ -18,7 +18,7 @@ import isString from './common/is-string.mjs'
 const log = debug('housekeeping/package')
 const info = debug('housekeeping/package:info')
 
-log('`housekeeping` is awake')
+log('`housekeeping/package` is awake')
 
 function toPatterns (directory) {
   return [
@@ -35,7 +35,7 @@ async function renderFile (filePath, AUTHOR, REGEXP) {
   log('renderFile')
 
   try {
-    info(toHomeDir(filePath))
+    info(formatDirectory(filePath))
 
     const {
       name,
@@ -81,14 +81,14 @@ async function renderFile (filePath, AUTHOR, REGEXP) {
       ...(repository ? { repository } : {}),
       ...(homepage ? { homepage } : {}),
       ...(bugs ? { bugs } : {}),
-      ...(scripts ? { scripts: byKeys(scripts) } : {}),
-      ...(bin ? { bin: byKeys(bin) } : {}),
-      ...(dependencies ? { dependencies: byKeys(dependencies) } : {}),
-      ...(devDependencies ? { devDependencies: byKeys(devDependencies) } : {}),
-      ...(peerDependencies ? { peerDependencies: byKeys(peerDependencies) } : {}),
+      ...(scripts ? { scripts: byKey(scripts) } : {}),
+      ...(bin ? { bin: byKey(bin) } : {}),
+      ...(dependencies ? { dependencies: byKey(dependencies) } : {}),
+      ...(devDependencies ? { devDependencies: byKey(devDependencies) } : {}),
+      ...(peerDependencies ? { peerDependencies: byKey(peerDependencies) } : {}),
       ...rest,
-      ...(imports ? { imports: byKeys(imports) } : {}),
-      ...(exports ? { exports: byKeys(exports) } : {}),
+      ...(imports ? { imports: byKey(imports) } : {}),
+      ...(exports ? { exports: byKey(exports) } : {}),
       ...(_moduleAliases ? { _moduleAliases } : {}),
       ...(husky ? { husky } : {})
     })
@@ -102,9 +102,9 @@ async function handlePackageDirectory (directory, author, regExp) {
 
   const d = resolve(directory)
   try {
-    info(toHomeDir(d))
+    info(formatDirectory(d))
 
-    const a = await getFilePaths(toPatterns(directory))
+    const a = await getFilePaths(toPatterns(d))
     for (const filePath of genFilePath(a)) await renderFile(filePath, author, new RegExp(regExp))
   } catch (e) {
     handleError(e)
@@ -116,7 +116,7 @@ export default async function handleDirectory (directory, author, regExp) {
 
   const d = resolve(directory)
   try {
-    info(toHomeDir(d))
+    info(formatDirectory(d))
 
     const a = await getFilePaths(toPackages(d))
     for (const filePath of genFilePath(a)) await handlePackageDirectory(dirname(filePath), author, regExp)

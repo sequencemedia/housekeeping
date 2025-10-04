@@ -1,11 +1,11 @@
+import debug from '#housekeeping/debug'
+
 import {
   resolve,
   dirname
 } from 'node:path'
 
-import debug from '#housekeeping/debug'
-
-import toHomeDir from './common/to-home-dir.mjs'
+import formatDirectory from './common/format-directory.mjs'
 import getFilePaths from './common/get-file-paths.mjs'
 import genFilePath from './common/gen-file-path.mjs'
 import fromFile from './common/from-file.mjs'
@@ -17,7 +17,7 @@ import isBoolean from './common/is-boolean.mjs'
 const log = debug('housekeeping/babelrc')
 const info = debug('housekeeping/babelrc:info')
 
-log('`housekeeping` is awake')
+log('`housekeeping/babelrc` is awake')
 
 function toPatterns (directory) {
   return [
@@ -40,7 +40,7 @@ async function renderFile (filePath) {
   log('renderFile')
 
   try {
-    info(toHomeDir(filePath))
+    info(formatDirectory(filePath))
 
     const {
       root,
@@ -71,9 +71,9 @@ async function handlePackageDirectory (directory) {
 
   const d = resolve(directory)
   try {
-    info(toHomeDir(d))
+    info(formatDirectory(d))
 
-    const a = await getFilePaths(toPatterns(directory))
+    const a = await getFilePaths(toPatterns(d))
     for (const filePath of genFilePath(a)) await renderFile(filePath)
   } catch (e) {
     handleError(e)
@@ -85,7 +85,7 @@ export default async function handleDirectory (directory) {
 
   const d = resolve(directory)
   try {
-    info(toHomeDir(d))
+    info(formatDirectory(d))
 
     const a = await getFilePaths(toPackages(d))
     for (const filePath of genFilePath(a)) await handlePackageDirectory(dirname(filePath))

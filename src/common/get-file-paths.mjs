@@ -1,10 +1,10 @@
-import glob from 'glob-all'
-
 import debug from '#housekeeping/debug'
 
-const log = debug('housekeeping/common/get-file-paths')
+import glob from 'glob-all'
 
-log('`housekeeping` is awake')
+const log = debug('housekeeping/common')
+
+log('`housekeeping/common/get-file-paths` is awake')
 
 function dedupe (array, value) {
   if (!array.includes(value)) array.push(value)

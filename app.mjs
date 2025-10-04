@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
+import debug from '#housekeeping/debug'
+
 import {
   Command
 } from 'commander'
 
-import debug from '#housekeeping/debug'
-
-import toHomeDir from './src/common/to-home-dir.mjs'
+import formatDirectory from './src/common/format-directory.mjs'
 import getPackage from './src/common/get-package.mjs'
 import getPackageName from './src/common/get-package-name.mjs'
 import getPackageAuthor from './src/common/get-package-author.mjs'
 import getPackageVersion from './src/common/get-package-version.mjs'
-import normalise from './src/common/normalise.mjs'
+import normaliseDirectory from './src/common/normalise-directory.mjs'
 
 import Json from './src/json.mjs'
 import P from './src/package.mjs'
@@ -64,11 +64,11 @@ async function app () {
     json = false
   } = commander.opts()
 
-  const directory = normalise(dir)
+  const directory = normaliseDirectory(dir)
 
   table({
     json,
-    directory: toHomeDir(directory)
+    directory: formatDirectory(directory)
   })
 
   if (json) await Json(directory)

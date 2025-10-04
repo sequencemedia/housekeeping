@@ -1,19 +1,17 @@
+import debug from '#housekeeping/debug'
+
 import {
   readFile
 } from 'node:fs/promises'
 
-import debug from '#housekeeping/debug'
+const log = debug('housekeeping/common')
 
-const log = debug('housekeeping/common/from-file')
-
-log('`housekeeping` is awake')
+log('`housekeeping/common/from-file` is awake')
 
 export default async function fromFile (filePath) {
   log('fromFile')
 
   const fileData = await readFile(filePath, 'utf8')
 
-  return (
-    JSON.parse(fileData)
-  )
+  return JSON.parse(fileData)
 }

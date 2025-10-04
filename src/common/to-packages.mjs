@@ -1,8 +1,8 @@
 import debug from '#housekeeping/debug'
 
-const log = debug('housekeeping/common/to-packages')
+const log = debug('housekeeping/common')
 
-log('`housekeeping` is awake')
+log('`housekeeping/common/to-package` is awake')
 
 export default function toPackages (directory = '.') {
   log('toPackages')
