@@ -1,3 +1,7 @@
+/**
+ *  @typedef {import('#housekeeping/types').JsonType} JsonType
+ */
+
 import debug from '#housekeeping/debug'
 
 import {
@@ -8,6 +12,10 @@ const log = debug('housekeeping/common')
 
 log('`housekeeping/common/from-file` is awake')
 
+/**
+ *  @param {string} filePath
+ *  @returns {Promise<JsonType>}
+ */
 export default async function fromFile (filePath) {
   log('fromFile')
 

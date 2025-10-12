@@ -4,6 +4,10 @@ const log = debug('housekeeping/common')
 
 log('`housekeeping/common/get-package-version` is awake')
 
+/**
+ *  @param {{ version?: string }} PACKAGE
+ *  @returns {string}
+ */
 export default function getPackageVersion (PACKAGE = {}) {
   log('getPackageVersion')
 

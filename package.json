@@ -4,6 +4,7 @@
   "private": true,
   "main": "./index.mjs",
   "type": "module",
+  "types": "./types/index.d.mts",
   "author": {
     "name": "Jonathan Perry for Sequence Media Limited",
     "email": "sequencemedia@sequencemedia.net",
@@ -31,11 +32,14 @@
   },
   "devDependencies": {
     "@sequencemedia/eslint-config-standard": "^0.2.91",
+    "@sequencemedia/eslint-config-typescript": "^0.1.156",
+    "@types/node": "^24.7.2",
     "eslint": "^9.37.0",
     "globals": "^16.4.0",
     "husky": "^9.1.7"
   },
   "imports": {
-    "#housekeeping/debug": "./src/common/debug.mjs"
+    "#housekeeping/debug": "./src/common/debug.mjs",
+    "#housekeeping/types": "./types/index.d.mts"
   }
 }

@@ -1,11 +1,13 @@
 import {
-  resolve,
   dirname
 } from 'node:path'
 
 import debug from '#housekeeping/debug'
 
+import normaliseDirectory from './common/normalise-directory.mjs'
 import formatDirectory from './common/format-directory.mjs'
+import normaliseFilePath from './common/normalise-file-path.mjs'
+import formatFilePath from './common/format-file-path.mjs'
 import getFilePaths from './common/get-file-paths.mjs'
 import genFilePath from './common/gen-file-path.mjs'
 import fromFile from './common/from-file.mjs'
@@ -18,6 +20,10 @@ const info = debug('housekeeping/json:info')
 
 log('`housekeeping/json` is awake')
 
+/**
+ *  @param {string} directory
+ *  @returns {string[]}
+ */
 function toPatterns (directory) {
   return [
     `${directory}/*.json`,
@@ -29,43 +35,77 @@ function toPatterns (directory) {
   ]
 }
 
+/**
+ *  @param {string} filePath
+ *  @returns {Promise<void>}
+ */
 async function renderFile (filePath) {
   log('renderFile')
 
+  const f = normaliseFilePath(filePath)
   try {
-    info(formatDirectory(filePath))
+    info(formatFilePath(f))
 
     const fileData = await fromFile(filePath)
     await toFile(filePath, fileData)
   } catch (e) {
-    handleError(e)
+    if (e instanceof Error) handleError(e)
+    else {
+      throw e
+    }
   }
 }
 
+/**
+ *  @param {string} directory
+ *  @returns {Promise<void>}
+ */
 async function handlePackageDirectory (directory) {
   log('handlePackageDirectory')
 
-  const d = resolve(directory)
+  const d = normaliseDirectory(directory)
   try {
     info(formatDirectory(d))
 
     const a = await getFilePaths(toPatterns(d))
-    for (const filePath of genFilePath(a)) await renderFile(filePath)
+    if (a.length) {
+      for (const f of genFilePath(a)) {
+        if (f) {
+          await renderFile(f)
+        }
+      }
+    }
   } catch (e) {
-    handleError(e)
+    if (e instanceof Error) handleError(e)
+    else {
+      throw e
+    }
   }
 }
 
+/**
+ *  @param {string} directory
+ *  @returns {Promise<void>}
+ */
 export default async function handleDirectory (directory) {
   log('handleDirectory')
 
-  const d = resolve(directory)
+  const d = normaliseDirectory(directory)
   try {
     info(formatDirectory(d))
 
     const a = await getFilePaths(toPackages(d))
-    for (const filePath of genFilePath(a)) await handlePackageDirectory(dirname(filePath))
+    if (a.length) {
+      for (const f of genFilePath(a)) {
+        if (f) {
+          await handlePackageDirectory(dirname(f))
+        }
+      }
+    }
   } catch (e) {
-    handleError(e)
+    if (e instanceof Error) handleError(e)
+    else {
+      throw e
+    }
   }
 }

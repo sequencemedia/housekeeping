@@ -6,6 +6,10 @@ const log = debug('housekeeping/common')
 
 log('`housekeeping/common/get-packages` is awake')
 
+/**
+ *  @param {string} directory
+ *  @returns {Promise<string[]>}
+ */
 export default function getPackages (directory = '.') {
   log('getPackages')
 

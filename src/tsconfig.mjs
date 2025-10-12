@@ -1,11 +1,13 @@
 import debug from '#housekeeping/debug'
 
 import {
-  resolve,
   dirname
 } from 'node:path'
 
+import normaliseDirectory from './common/normalise-directory.mjs'
 import formatDirectory from './common/format-directory.mjs'
+import normaliseFilePath from './common/normalise-file-path.mjs'
+import formatFilePath from './common/format-file-path.mjs'
 import isBoolean from './common/is-boolean.mjs'
 import byKey from './common/by-key.mjs'
 import byItem from './common/by-item.mjs'
@@ -21,6 +23,10 @@ const info = debug('housekeeping/tsconfig:info')
 
 log('`housekeeping/tsconfig` is awake')
 
+/**
+ *  @param {string} directory
+ *  @returns {string[]}
+ */
 function toPatterns (directory) {
   return [
     `${directory}/tsconfig.json`,
@@ -32,6 +38,10 @@ function toPatterns (directory) {
   ]
 }
 
+/**
+ * @param {JsonType} compilerOptions
+ * @returns {JsonType}
+ */
 function renderCompilerOptions ({
   module,
   target,
@@ -58,56 +68,96 @@ function renderCompilerOptions ({
   }
 }
 
+/**
+ *  @param {string} filePath
+ *  @returns {Promise<void>}
+ */
 async function renderFile (filePath) {
   log('renderFile')
 
+  const f = normaliseFilePath(filePath)
   try {
-    info(formatDirectory(filePath))
+    info(formatFilePath(f))
 
+    /**
+   *  @typedef {{
+   *    compilerOptions?: JsonType
+   *  } & JsonType} CompilerOptionsType
+   *  @type {CompilerOptionsType}
+   */
     const {
       extends: doesExtend,
       compilerOptions,
       include,
       exclude,
       ...rest
-    } = await fromFile(filePath)
+    } = await fromFile(f)
 
-    await toFile(filePath, {
+    await toFile(f, {
       ...(doesExtend ? { extends: doesExtend } : {}),
       ...(compilerOptions ? { compilerOptions: renderCompilerOptions(compilerOptions) } : {}),
       ...(Array.isArray(include) ? { include: byItem(include) } : {}),
       ...(Array.isArray(exclude) ? { exclude: byItem(exclude) } : {}),
-      ...rest
+      ...(byKey(rest))
     })
   } catch (e) {
-    handleError(e)
+    if (e instanceof Error) handleError(e)
+    else {
+      throw e
+    }
   }
 }
 
+/**
+ *  @param {string} directory
+ *  @returns {Promise<void>}
+ */
 async function handlePackageDirectory (directory) {
   log('handlePackageDirectory')
 
-  const d = resolve(directory)
+  const d = normaliseDirectory(directory)
   try {
     info(formatDirectory(d))
 
     const a = await getFilePaths(toPatterns(d))
-    for (const filePath of genFilePath(a)) await renderFile(filePath)
+    if (a.length) {
+      for (const f of genFilePath(a)) {
+        if (f) {
+          await renderFile(f)
+        }
+      }
+    }
   } catch (e) {
-    handleError(e)
+    if (e instanceof Error) handleError(e)
+    else {
+      throw e
+    }
   }
 }
 
+/**
+ *  @param {string} directory
+ *  @returns {Promise<void>}
+ */
 export default async function handleDirectory (directory) {
   log('handleDirectory')
 
-  const d = resolve(directory)
+  const d = normaliseDirectory(directory)
   try {
     info(formatDirectory(d))
 
     const a = await getFilePaths(toPackages(d))
-    for (const filePath of genFilePath(a)) await handlePackageDirectory(dirname(filePath))
+    if (a.length) {
+      for (const f of genFilePath(a)) {
+        if (f) {
+          await handlePackageDirectory(dirname(f))
+        }
+      }
+    }
   } catch (e) {
-    handleError(e)
+    if (e instanceof Error) handleError(e)
+    else {
+      throw e
+    }
   }
 }

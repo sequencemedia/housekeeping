@@ -6,20 +6,34 @@ const log = debug('housekeeping/common')
 
 log('`housekeeping/common/get-file-paths` is awake')
 
-function dedupe (array, value) {
-  if (!array.includes(value)) array.push(value)
-  return array
-}
-
+/**
+ *  @param {string | string[]} patterns
+ *  @returns {Promise<string[]>}
+ */
 export default function getFilePaths (patterns = './*') {
   log('getFilePaths')
 
   return (
     new Promise((resolve, reject) => {
-      glob(patterns, (e, a) => {
-        (!e)
-          ? resolve(a.reduce(dedupe, []))
-          : reject(e)
+      glob(patterns, (e, filePaths) => {
+        if (!e) {
+          /**
+           *  Ensure unique
+           *
+           *  @type {Set<string>}
+           */
+          const s = new Set(filePaths)
+          /**
+           *  Ensure truthy string
+           *
+           *  @type {string[]}
+           */
+          const a = Array.from(s).filter(Boolean).map(String)
+
+          resolve(a)
+        } else {
+          reject(e)
+        }
       })
     })
   )

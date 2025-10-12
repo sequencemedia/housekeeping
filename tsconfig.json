@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ESNext",
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "paths": {
+      "#housekeeping/debug": [
+        "./src/common/debug.mjs"
+      ],
+      "#housekeeping/types": [
+        "./types/index.d.mts"
+      ]
+    }
+  },
+  "include": [
+    ".",
+    "./types"
+  ]
+}

@@ -1,11 +1,13 @@
 import debug from '#housekeeping/debug'
 
 import {
-  resolve,
   dirname
 } from 'node:path'
 
+import normaliseDirectory from './common/normalise-directory.mjs'
 import formatDirectory from './common/format-directory.mjs'
+import normaliseFilePath from './common/normalise-file-path.mjs'
+import formatFilePath from './common/format-file-path.mjs'
 import byKey from './common/by-key.mjs'
 import getFilePaths from './common/get-file-paths.mjs'
 import genFilePath from './common/gen-file-path.mjs'
@@ -20,6 +22,10 @@ const info = debug('housekeeping/package:info')
 
 log('`housekeeping/package` is awake')
 
+/**
+ *  @param {string} directory
+ *  @returns {string[]}
+ */
 function toPatterns (directory) {
   return [
     `${directory}/package.json`,
@@ -31,11 +37,18 @@ function toPatterns (directory) {
   ]
 }
 
+/**
+ *  @param {string} filePath
+ *  @param {string} AUTHOR
+ *  @param {RegExp} REGEXP
+ *  @returns {Promise<void>}
+ */
 async function renderFile (filePath, AUTHOR, REGEXP) {
   log('renderFile')
 
+  const f = normaliseFilePath(filePath)
   try {
-    info(formatDirectory(filePath))
+    info(formatFilePath(f))
 
     const {
       name,
@@ -63,9 +76,9 @@ async function renderFile (filePath, AUTHOR, REGEXP) {
       _moduleAliases,
       husky,
       ...rest
-    } = await fromFile(filePath)
+    } = await fromFile(f)
 
-    await toFile(filePath, {
+    await toFile(f, {
       ...(name ? { name } : {}),
       ...(version ? { version } : {}),
       ...(description ? { description } : {}),
@@ -86,41 +99,74 @@ async function renderFile (filePath, AUTHOR, REGEXP) {
       ...(dependencies ? { dependencies: byKey(dependencies) } : {}),
       ...(devDependencies ? { devDependencies: byKey(devDependencies) } : {}),
       ...(peerDependencies ? { peerDependencies: byKey(peerDependencies) } : {}),
-      ...rest,
+      ...(byKey(rest)),
       ...(imports ? { imports: byKey(imports) } : {}),
       ...(exports ? { exports: byKey(exports) } : {}),
       ...(_moduleAliases ? { _moduleAliases } : {}),
       ...(husky ? { husky } : {})
     })
   } catch (e) {
-    handleError(e)
+    if (e instanceof Error) handleError(e)
+    else {
+      throw e
+    }
   }
 }
 
+/**
+ *  @param {string} directory
+ *  @param {string} author
+ *  @param {string} regExp
+ *  @returns {Promise<void>}
+ */
 async function handlePackageDirectory (directory, author, regExp) {
   log('handlePackageDirectory')
 
-  const d = resolve(directory)
+  const d = normaliseDirectory(directory)
   try {
     info(formatDirectory(d))
 
     const a = await getFilePaths(toPatterns(d))
-    for (const filePath of genFilePath(a)) await renderFile(filePath, author, new RegExp(regExp))
+    if (a.length) {
+      for (const f of genFilePath(a)) {
+        if (f) {
+          await renderFile(f, author, new RegExp(regExp))
+        }
+      }
+    }
   } catch (e) {
-    handleError(e)
+    if (e instanceof Error) handleError(e)
+    else {
+      throw e
+    }
   }
 }
 
+/**
+ *  @param {string} directory
+ *  @param {string} author
+ *  @param {string} regExp
+ *  @returns {Promise<void>}
+ */
 export default async function handleDirectory (directory, author, regExp) {
   log('handleDirectory')
 
-  const d = resolve(directory)
+  const d = normaliseDirectory(directory)
   try {
     info(formatDirectory(d))
 
     const a = await getFilePaths(toPackages(d))
-    for (const filePath of genFilePath(a)) await handlePackageDirectory(dirname(filePath), author, regExp)
+    if (a.length) {
+      for (const f of genFilePath(a)) {
+        if (f) {
+          await handlePackageDirectory(dirname(f), author, regExp)
+        }
+      }
+    }
   } catch (e) {
-    handleError(e)
+    if (e instanceof Error) handleError(e)
+    else {
+      throw e
+    }
   }
 }
