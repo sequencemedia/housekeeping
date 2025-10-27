@@ -26,7 +26,7 @@
     "start:tsconfig": "node tsconfig.mjs"
   },
   "dependencies": {
-    "commander": "^14.0.1",
+    "commander": "^14.0.2",
     "debug": "^4.4.3",
     "glob-all": "^3.3.1"
   },
