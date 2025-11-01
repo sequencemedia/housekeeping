@@ -31,11 +31,11 @@
     "glob-all": "^3.3.1"
   },
   "devDependencies": {
-    "@sequencemedia/eslint-config-standard": "^0.2.98",
-    "@sequencemedia/eslint-config-typescript": "^0.1.169",
+    "@sequencemedia/eslint-config-standard": "^0.2.99",
+    "@sequencemedia/eslint-config-typescript": "^0.1.171",
     "@types/node": "^24.9.2",
-    "eslint": "^9.38.0",
-    "globals": "^16.4.0",
+    "eslint": "9.38.0",
+    "globals": "^16.5.0",
     "husky": "^9.1.7"
   },
   "imports": {
