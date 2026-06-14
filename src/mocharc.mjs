@@ -75,7 +75,13 @@ async function handlePackageDirectory (directory) {
   try {
     info(formatDirectory(d))
 
-    for await (const filePath of genFilePaths(toPatterns(d), toExcludePatterns(d))) {
+    for await (
+      const filePath of (
+        genFilePaths(
+          toPatterns(d),
+          toExcludePatterns(d)
+        ))
+    ) {
       await renderFile(filePath)
     }
   } catch (e) {
@@ -97,7 +103,13 @@ export default async function handleDirectory (directory) {
   try {
     info(formatDirectory(d))
 
-    for await (const filePath of genFilePaths(toPackages(d), toExcludePatterns(d))) {
+    for await (
+      const filePath of (
+        genFilePaths(
+          toPackages(d),
+          toExcludePatterns(d)
+        ))
+    ) {
       await handlePackageDirectory(dirname(filePath))
     }
   } catch (e) {
