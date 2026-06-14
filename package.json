@@ -11,6 +11,9 @@
     "url": "https://sequencemedia.net"
   },
   "license": "ISC",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",

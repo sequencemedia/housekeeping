@@ -7,6 +7,9 @@
     "noEmit": true,
     "strict": true,
     "isolatedModules": true,
+    "types": [
+      "node"
+    ],
     "paths": {
       "#housekeeping/debug": [
         "./src/common/debug.mjs"

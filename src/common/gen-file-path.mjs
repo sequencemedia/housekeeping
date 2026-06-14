@@ -5,12 +5,12 @@ const log = debug('housekeeping/common')
 log('`housekeeping/common/gen-file-path` is awake')
 
 /**
- *  @param {string[]} filePaths
+ *  @param {string[]} alpha
  *  @returns {Generator<string | undefined, void, unknown>}
  */
-export default function * genFilePath (filePaths) {
+export default function * genFilePath (alpha) {
   log('genFilePath')
 
-  const a = filePaths.slice()
-  while (a.length) yield a.shift()
+  const omega = alpha.filter(Boolean)
+  while (omega.length) yield omega.shift()
 }

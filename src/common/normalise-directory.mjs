@@ -5,6 +5,7 @@ import {
 } from 'node:os'
 
 import {
+  normalize,
   resolve
 } from 'node:path'
 
@@ -15,9 +16,9 @@ log('`housekeeping/common/normalise-directory` is awake')
 const HOMEDIR = homedir()
 
 /**
- *  @param {string} p
+ *  @param {string} directory
  *  @returns {string}
  */
-export default function normaliseDirectory (p) {
-  return resolve(p.trim().replace(/^~/, HOMEDIR))
+export default function normaliseDirectory (directory) {
+  return resolve(normalize(directory)).trim().replace(/^~/, HOMEDIR)
 }

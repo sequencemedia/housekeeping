@@ -6,11 +6,11 @@ import {
 
 import normaliseDirectory from './common/normalise-directory.mjs'
 import formatDirectory from './common/format-directory.mjs'
+import toExcludePatterns from './common/to-exclude-patterns.mjs'
 import normaliseFilePath from './common/normalise-file-path.mjs'
 import formatFilePath from './common/format-file-path.mjs'
 import byKey from './common/by-key.mjs'
-import getFilePaths from './common/get-file-paths.mjs'
-import genFilePath from './common/gen-file-path.mjs'
+import genFilePaths from './common/gen-file-paths.mjs'
 import fromFile from './common/from-file.mjs'
 import toFile from './common/to-file.mjs'
 import toPackages from './common/to-packages.mjs'
@@ -29,11 +29,7 @@ log('`housekeeping/package` is awake')
 function toPatterns (directory) {
   return [
     `${directory}/package.json`,
-    `${directory}/**/package.json`,
-    `!${directory}/node_modules/package.json`,
-    `!${directory}/node_modules/**/package.json`,
-    `!${directory}/**/node_modules/package.json`,
-    `!${directory}/**/node_modules/**/package.json`
+    `${directory}/**/package.json`
   ]
 }
 
@@ -71,6 +67,7 @@ async function renderFile (filePath, AUTHOR, REGEXP) {
       dependencies,
       devDependencies,
       peerDependencies,
+      overrides,
       imports,
       exports,
       _moduleAliases,
@@ -99,6 +96,7 @@ async function renderFile (filePath, AUTHOR, REGEXP) {
       ...(dependencies ? { dependencies: byKey(dependencies) } : {}),
       ...(devDependencies ? { devDependencies: byKey(devDependencies) } : {}),
       ...(peerDependencies ? { peerDependencies: byKey(peerDependencies) } : {}),
+      ...(overrides ? { overrides: byKey(overrides) } : {}),
       ...(byKey(rest)),
       ...(imports ? { imports: byKey(imports) } : {}),
       ...(exports ? { exports: byKey(exports) } : {}),
@@ -126,13 +124,8 @@ async function handlePackageDirectory (directory, author, regExp) {
   try {
     info(formatDirectory(d))
 
-    const a = await getFilePaths(toPatterns(d))
-    if (a.length) {
-      for (const f of genFilePath(a)) {
-        if (f) {
-          await renderFile(f, author, new RegExp(regExp))
-        }
-      }
+    for await (const filePath of genFilePaths(toPatterns(d), toExcludePatterns(d))) {
+      await renderFile(filePath, author, new RegExp(regExp))
     }
   } catch (e) {
     if (e instanceof Error) handleError(e)
@@ -155,13 +148,8 @@ export default async function handleDirectory (directory, author, regExp) {
   try {
     info(formatDirectory(d))
 
-    const a = await getFilePaths(toPackages(d))
-    if (a.length) {
-      for (const f of genFilePath(a)) {
-        if (f) {
-          await handlePackageDirectory(dirname(f), author, regExp)
-        }
-      }
+    for await (const filePath of genFilePaths(toPackages(d), toExcludePatterns(d))) {
+      await handlePackageDirectory(dirname(filePath), author, regExp)
     }
   } catch (e) {
     if (e instanceof Error) handleError(e)

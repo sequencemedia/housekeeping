@@ -9,6 +9,6 @@ export default function toPackages (directory = '.') {
 
   return [
     `${directory}/package.json`,
-    `${directory}/*/package.json`
+    `${directory}/**/package.json`
   ]
 }

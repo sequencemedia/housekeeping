@@ -4,7 +4,7 @@ const log = debug('housekeeping/common')
 
 log('`housekeeping/common/by-key` is awake')
 
-function sortEntriesByKey ([alpha], [omega]) {
+export function sortEntriesByKey ([alpha], [omega]) {
   return (
     alpha
       .localeCompare(omega)

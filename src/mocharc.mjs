@@ -6,11 +6,11 @@ import {
 
 import normaliseDirectory from './common/normalise-directory.mjs'
 import formatDirectory from './common/format-directory.mjs'
+import toExcludePatterns from './common/to-exclude-patterns.mjs'
+import byKey from './common/by-key.mjs'
+import genFilePaths from './common/gen-file-paths.mjs'
 import normaliseFilePath from './common/normalise-file-path.mjs'
 import formatFilePath from './common/format-file-path.mjs'
-import byKey from './common/by-key.mjs'
-import getFilePaths from './common/get-file-paths.mjs'
-import genFilePath from './common/gen-file-path.mjs'
 import fromFile from './common/from-file.mjs'
 import toFile from './common/to-file.mjs'
 import toPackages from './common/to-packages.mjs'
@@ -30,15 +30,7 @@ function toPatterns (directory) {
     `${directory}/.mocharc`,
     `${directory}/.mocharc.json`,
     `${directory}/**/.mocharc`,
-    `${directory}/**/.mocharc.json`,
-    `!${directory}/node_modules/.mocharc`,
-    `!${directory}/node_modules/.mocharc.json`,
-    `!${directory}/node_modules/**/.mocharc`,
-    `!${directory}/node_modules/**/.mocharc.json`,
-    `!${directory}/**/node_modules/.mocharc`,
-    `!${directory}/**/node_modules/.mocharc.json`,
-    `!${directory}/**/node_modules/**/.mocharc`,
-    `!${directory}/**/node_modules/**/.mocharc.json`
+    `${directory}/**/.mocharc.json`
   ]
 }
 
@@ -83,13 +75,8 @@ async function handlePackageDirectory (directory) {
   try {
     info(formatDirectory(d))
 
-    const a = await getFilePaths(toPatterns(d))
-    if (a.length) {
-      for (const f of genFilePath(a)) {
-        if (f) {
-          await renderFile(f)
-        }
-      }
+    for await (const filePath of genFilePaths(toPatterns(d), toExcludePatterns(d))) {
+      await renderFile(filePath)
     }
   } catch (e) {
     if (e instanceof Error) handleError(e)
@@ -110,13 +97,8 @@ export default async function handleDirectory (directory) {
   try {
     info(formatDirectory(d))
 
-    const a = await getFilePaths(toPackages(d))
-    if (a.length) {
-      for (const f of genFilePath(a)) {
-        if (f) {
-          await handlePackageDirectory(dirname(f))
-        }
-      }
+    for await (const filePath of genFilePaths(toPackages(d), toExcludePatterns(d))) {
+      await handlePackageDirectory(dirname(filePath))
     }
   } catch (e) {
     if (e instanceof Error) handleError(e)

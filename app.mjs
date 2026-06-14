@@ -31,12 +31,14 @@ const {
   table
 } = console
 
-const commander = new Command()
-
 async function app () {
+  log('Housekeeping')
+
   const PACKAGE = await getPackage()
 
   const name = getPackageName(PACKAGE)
+
+  const commander = new Command()
 
   const {
     pid,

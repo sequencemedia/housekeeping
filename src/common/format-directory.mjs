@@ -5,20 +5,28 @@ import {
   homedir
 } from 'node:os'
 
+import {
+  normalize,
+  resolve
+} from 'node:path'
+
 const log = debug('housekeeping/common')
 
 log('`housekeeping/common/format-directory` is awake')
 
 const PLATFORM = platform()
 const HOMEDIR = homedir()
-const PATTERN = new RegExp('^' + HOMEDIR)
 
 /**
  *  @function formatDirectory
  *  @type {(directory: string) => string}
  */
 const formatDirectory = PLATFORM === 'win32'
-  ? (directory) => directory
-  : (directory) => PATTERN.test(directory) ? directory.replace(PATTERN, '~') : directory
+  ? (directory) => resolve(normalize(directory)).trim()
+  : (directory) => {
+      const d = resolve(normalize(directory)).trim()
+      if (d.startsWith(HOMEDIR)) return d.replace(new RegExp('^' + HOMEDIR), '~')
+      return d
+    }
 
 export default formatDirectory

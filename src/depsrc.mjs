@@ -6,11 +6,11 @@ import {
 
 import normaliseDirectory from './common/normalise-directory.mjs'
 import formatDirectory from './common/format-directory.mjs'
+import toExcludePatterns from './common/to-exclude-patterns.mjs'
 import normaliseFilePath from './common/normalise-file-path.mjs'
 import formatFilePath from './common/format-file-path.mjs'
 import byKey from './common/by-key.mjs'
-import getFilePaths from './common/get-file-paths.mjs'
-import genFilePath from './common/gen-file-path.mjs'
+import genFilePaths from './common/gen-file-paths.mjs'
 import fromFile from './common/from-file.mjs'
 import toFile from './common/to-file.mjs'
 import toPackages from './common/to-packages.mjs'
@@ -30,15 +30,7 @@ function toPatterns (directory) {
     `${directory}/.depsrc`,
     `${directory}/.depsrc.json`,
     `${directory}/**/.depsrc`,
-    `${directory}/**/.depsrc.json`,
-    `!${directory}/node_modules/.depsrc`,
-    `!${directory}/node_modules/.depsrc.json`,
-    `!${directory}/node_modules/**/.depsrc`,
-    `!${directory}/node_modules/**/.depsrc.json`,
-    `!${directory}/**/node_modules/.depsrc`,
-    `!${directory}/**/node_modules/.depsrc.json`,
-    `!${directory}/**/node_modules/**/.depsrc`,
-    `!${directory}/**/node_modules/**/.depsrc.json`
+    `${directory}/**/.depsrc.json`
   ]
 }
 
@@ -93,13 +85,8 @@ async function handlePackageDirectory (directory, author) {
   try {
     info(formatDirectory(d))
 
-    const a = await getFilePaths(toPatterns(d))
-    if (a.length) {
-      for (const f of genFilePath(a)) {
-        if (f) {
-          await renderFile(f, author)
-        }
-      }
+    for await (const filePath of genFilePaths(toPatterns(d), toExcludePatterns(d))) {
+      await renderFile(filePath, author)
     }
   } catch (e) {
     if (e instanceof Error) handleError(e)
@@ -121,13 +108,8 @@ export default async function handleDirectory (directory, author) {
   try {
     info(formatDirectory(d))
 
-    const a = await getFilePaths(toPackages(d))
-    if (a.length) {
-      for (const f of genFilePath(a)) {
-        if (f) {
-          await handlePackageDirectory(dirname(f), author)
-        }
-      }
+    for await (const filePath of genFilePaths(toPackages(d), toExcludePatterns(d))) {
+      await handlePackageDirectory(dirname(filePath), author)
     }
   } catch (e) {
     if (e instanceof Error) handleError(e)
