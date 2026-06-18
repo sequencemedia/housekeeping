@@ -17,7 +17,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "prepare": "husky",
+    "prepare": "node husky.mjs",
     "start": "node app.mjs",
     "start:babelrc": "node babelrc.mjs",
     "start:depsrc": "node depsrc.mjs",
