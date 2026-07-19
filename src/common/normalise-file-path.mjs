@@ -5,7 +5,8 @@ import {
 } from 'node:os'
 
 import {
-  resolve
+  resolve,
+  normalize
 } from 'node:path'
 
 const log = debug('housekeeping/common')
@@ -15,9 +16,9 @@ log('`housekeeping/common/normalise-file-path` is awake')
 const HOMEDIR = homedir()
 
 /**
- *  @param {string} p
+ *  @param {string} filePath
  *  @returns {string}
  */
-export default function normaliseFilePath (p) {
-  return resolve(p.trim().replace(/^~/, HOMEDIR))
+export default function normaliseFilePath (filePath) {
+  return resolve(normalize(filePath.trim().replace(/^~/, HOMEDIR)))
 }

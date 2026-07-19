@@ -20,5 +20,5 @@ const HOMEDIR = homedir()
  *  @returns {string}
  */
 export default function normaliseDirectory (directory) {
-  return resolve(normalize(directory)).trim().replace(/^~/, HOMEDIR)
+  return resolve(normalize(directory.trim().replace(/^~/, HOMEDIR)))
 }
