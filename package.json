@@ -29,16 +29,16 @@
     "start:tsconfig": "node tsconfig.mjs"
   },
   "dependencies": {
-    "commander": "^15.0.0",
+    "commander": "^15.1.0",
     "debug": "^4.4.3",
     "glob-all": "^3.3.1"
   },
   "devDependencies": {
-    "@sequencemedia/eslint-config-standard": "^0.2.132",
-    "@sequencemedia/eslint-config-typescript": "^0.1.230",
-    "@types/node": "^26.6.5",
+    "@sequencemedia/eslint-config-standard": "0.2.132",
+    "@sequencemedia/eslint-config-typescript": "0.1.230",
+    "@types/node": "^26.6.6",
     "eslint": "9.38.0",
-    "globals": "^17.13.0",
+    "globals": "^17.14.0",
     "husky": "^9.1.7"
   },
   "imports": {
